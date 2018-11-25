@@ -56,6 +56,8 @@ type HighchartsJsonOut struct {
 	Yaxis []HighchartsYaxis `json:"yAxis"`
 	Xaxis struct {
 		Categories []string `json:"categories"`
+		GridLineWidth int `json:"gridLineWidth"`
+		Opposite bool `json:"opposite"`
 	} `json:"xAxis"`
 	PlotOptions struct {
 		Spline struct {
@@ -163,20 +165,23 @@ func main() () {
 	yaxis3.Visible = false
 	highchartsJsonOut.Yaxis = append(highchartsJsonOut.Yaxis, yaxis3)
 
-	serie0 := HighchartsSerie{"Temperature", 0, "#AB3C3C", HighchartsLabels{}, []int64{}}
-	serie0.DataLabels.Style.Color = "#AB3C3C"
+	// https://www.rapidtables.com/web/color/RGB_Color.html
+	serie0 := HighchartsSerie{"Temperature", 0, " #00CC00", HighchartsLabels{}, []int64{}}
+	serie0.DataLabels.Style.Color = "#00CC00"
 	serie0.DataLabels.Format = "{y}°C"
-	serie1 := HighchartsSerie{"Rainfall", 1, "#308930", HighchartsLabels{}, []int64{}}
-	serie1.DataLabels.Style.Color = "#308930"
+	serie1 := HighchartsSerie{"Rainfall", 1, "#0066CC", HighchartsLabels{}, []int64{}}
+	serie1.DataLabels.Style.Color = "#0066CC"
 	serie1.DataLabels.Format = "{y}mm"
-	serie2 := HighchartsSerie{"Wind speed", 2, "#AB953C", HighchartsLabels{}, []int64{}}
-	serie2.DataLabels.Style.Color = "#AB953C"
+	serie2 := HighchartsSerie{"Wind speed", 2, "#CC0000", HighchartsLabels{}, []int64{}}
+	serie2.DataLabels.Style.Color = "#CC0000"
 	serie2.DataLabels.Format = "{y}m/s"
-	serie3 := HighchartsSerie{"Cloud cover", 3, "#3F3376", HighchartsLabels{}, []int64{}}
-	serie3.DataLabels.Style.Color = "#3F3376"
+	serie3 := HighchartsSerie{"Cloud cover", 3, "#6600CC", HighchartsLabels{}, []int64{}}
+	serie3.DataLabels.Style.Color = "#6600CC"
 	serie3.DataLabels.Format = "{y}%"
 	for index := 0; index < 8; index++ {
 		highchartsJsonOut.Xaxis.Categories = append(highchartsJsonOut.Xaxis.Categories, jsonIn.List[index].Date[11:16])
+		highchartsJsonOut.Xaxis.GridLineWidth = 1
+		highchartsJsonOut.Xaxis.Opposite = true
 		serie0.Data = append(serie0.Data, int64(jsonIn.List[index].Main.Temp))
 		serie1.Data = append(serie1.Data, int64(jsonIn.List[index].Rain.Precip))
 		serie2.Data = append(serie2.Data, int64(jsonIn.List[index].Wind.Speed))
